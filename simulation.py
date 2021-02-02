@@ -203,14 +203,14 @@ def run_simulation(genomes, config):
         
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
-        still_alive = False
+        still_alive = 0
         for i, car in enumerate(cars):
             if car.is_alive():
-                still_alive = True
+                still_alive += 1
                 car.update(game_map)
                 genomes[i][1].fitness += car.get_reward()
 
-        if still_alive == False:
+        if still_alive == 0:
             break
 
         counter += 1
