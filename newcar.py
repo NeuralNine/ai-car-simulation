@@ -10,11 +10,14 @@ import neat
 import pygame
 
 # Constants
-WIDTH = 1600
-HEIGHT = 880
+# WIDTH = 1600
+# HEIGHT = 880
 
-CAR_SIZE_X = 30
-CAR_SIZE_Y = 30
+WIDTH = 1920
+HEIGHT = 1080
+
+CAR_SIZE_X = 60    
+CAR_SIZE_Y = 60
 
 BORDER_COLOR = (255, 255, 255, 255) # Color To Crash on Hit
 
@@ -28,7 +31,8 @@ class Car:
         self.sprite = pygame.transform.scale(self.sprite, (CAR_SIZE_X, CAR_SIZE_Y))
         self.rotated_sprite = self.sprite 
 
-        self.position = [690, 740] # Starting Position
+        # self.position = [690, 740] # Starting Position
+        self.position = [830, 920] # Starting Position
         self.angle = 0
         self.speed = 0
 
@@ -46,7 +50,7 @@ class Car:
 
     def draw(self, screen):
         screen.blit(self.rotated_sprite, self.position) # Draw Sprite
-        # self.draw_radar(screen) OPTIONAL FOR SENSORS
+        self.draw_radar(screen) #OPTIONAL FOR SENSORS
 
     def draw_radar(self, screen):
         # Optionally Draw All Sensors / Radars
@@ -83,7 +87,7 @@ class Car:
         # Set The Speed To 20 For The First Time
         # Only When Having 4 Output Nodes With Speed Up and Down
         if not self.speed_set:
-            self.speed = 10
+            self.speed = 20
             self.speed_set = True
 
         # Get Rotated Sprite And Move Into The Right X-Direction
@@ -158,7 +162,7 @@ def run_simulation(genomes, config):
 
     # Initialize PyGame And The Display
     pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
     # For All Genomes Passed Create A New Neural Network
     for i, g in genomes:
@@ -214,7 +218,7 @@ def run_simulation(genomes, config):
             break
 
         counter += 1
-        if counter == 30 * 20: # Stop After About 20 Seconds
+        if counter == 30 * 40: # Stop After About 20 Seconds
             break
 
         # Draw Map And All Cars That Are Alive
@@ -226,12 +230,12 @@ def run_simulation(genomes, config):
         # Display Info
         text = generation_font.render("Generation: " + str(current_generation), True, (0,0,0))
         text_rect = text.get_rect()
-        text_rect.center = (100, 100)
+        text_rect.center = (900, 450)
         screen.blit(text, text_rect)
 
         text = alive_font.render("Still Alive: " + str(still_alive), True, (0, 0, 0))
         text_rect = text.get_rect()
-        text_rect.center = (100, 150)
+        text_rect.center = (900, 490)
         screen.blit(text, text_rect)
 
         pygame.display.flip()
