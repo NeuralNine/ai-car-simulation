@@ -1,27 +1,33 @@
 # This Code is Heavily Inspired By The YouTuber: Cheesy AI
 # Code Changed, Optimized And Commented By: NeuralNine (Florian Dedov)
-
+import time
 import math
 import random
 import sys
 import os
-
+import time
 import neat
 import pygame
-
+import pickle
 # Constants
-# WIDTH = 1600
-# HEIGHT = 880
+# WIDTH = 3243
+# HEIGHT = 1824
 
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 3243
+HEIGHT = 1824
 
-CAR_SIZE_X = 60    
+CAR_SIZE_X = 60
 CAR_SIZE_Y = 60
 
 BORDER_COLOR = (255, 255, 255, 255) # Color To Crash on Hit
 
 current_generation = 0 # Generation counter
+def time_convert(sec):
+  mins = sec // 60
+  sec = sec % 60
+  hours = mins // 60
+  mins = mins % 60
+  print("Time Lapsed = {0}:{1}:{2}".format(int(hours),int(mins),sec))
 
 class Car:
 
@@ -29,7 +35,7 @@ class Car:
         # Load Car Sprite and Rotate
         self.sprite = pygame.image.load('car.png').convert() # Convert Speeds Up A Lot
         self.sprite = pygame.transform.scale(self.sprite, (CAR_SIZE_X, CAR_SIZE_Y))
-        self.rotated_sprite = self.sprite 
+        self.rotated_sprite = self.sprite
 
         # self.position = [690, 740] # Starting Position
         self.position = [830, 920] # Starting Position
@@ -82,7 +88,7 @@ class Car:
         # Calculate Distance To Border And Append To Radars List
         dist = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
         self.radars.append([(x, y), dist])
-    
+
     def update(self, game_map):
         # Set The Speed To 20 For The First Time
         # Only When Having 4 Output Nodes With Speed Up and Down
@@ -100,7 +106,7 @@ class Car:
         # Increase Distance and Time
         self.distance += self.speed
         self.time += 1
-        
+
         # Same For Y-Position
         self.position[1] += math.sin(math.radians(360 - self.angle)) * self.speed
         self.position[1] = max(self.position[1], 20)
@@ -155,7 +161,7 @@ class Car:
 
 
 def run_simulation(genomes, config):
-    
+
     # Empty Collections For Nets and Cars
     nets = []
     cars = []
@@ -177,7 +183,7 @@ def run_simulation(genomes, config):
     clock = pygame.time.Clock()
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
-    game_map = pygame.image.load('map.png').convert() # Convert Speeds Up A Lot
+    game_map = pygame.image.load('map2.png').convert() # Convert Speeds Up A Lot
 
     global current_generation
     current_generation += 1
@@ -193,18 +199,51 @@ def run_simulation(genomes, config):
 
         # For Each Car Get The Acton It Takes
         for i, car in enumerate(cars):
-            output = nets[i].activate(car.get_data())
-            choice = output.index(max(output))
-            if choice == 0:
-                car.angle += 10 # Left
-            elif choice == 1:
-                car.angle -= 10 # Right
-            elif choice == 2:
-                if(car.speed - 2 >= 12):
-                    car.speed -= 2 # Slow Down
-            else:
-                car.speed += 2 # Speed Up
-        
+          output = nets[i].activate(car.get_data())
+          choice = output.index(max(output))
+          if choice == 0:
+              car.angle += 10
+          if choice == 1:
+              car.angle -= 0 # Left
+          if choice == 2:
+                 car.angle -= 10 # Left
+          if choice == 3:
+              if car.speed >= 15:
+                  car.speed += 1
+              else:
+                  car.speed -= 1# Slow Down
+          if choice == 4:
+                  car.speed += 1 # Speed Up
+          if choice == 5:
+                  list4 = [5,5]
+                  car.angle -= random.choice(list4) # Left
+          if choice == 6:
+                  car.angle += 0 # Left
+          if choice == 7:
+                 list2 = [5,5]
+                 car.angle -= random.choice(list2) # Left
+          if choice == 8:
+              for i, car in enumerate(cars):
+                output = nets[i].activate(car.get_data())
+                choice = output.index(10(output))
+                car.angle += choice # Left
+          if choice == 9:
+              for i, car in enumerate(cars):
+                output = nets[i].activate(car.get_data())
+                choice = output.index(10(output))
+                car.angle -= choice # Left
+          if choice == 10:
+              for i, car in enumerate(cars):
+                output = nets[i].activate(car.get_data())
+                choice = output.index(223.6(output))
+                car.speed += choice
+          if choice == 11:
+              for i, car in enumerate(cars):
+                output = nets[i].activate(car.get_data())
+                choice = output.index(25(output))
+                car.speed -= choice
+
+
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
         still_alive = 0
@@ -226,7 +265,7 @@ def run_simulation(genomes, config):
         for car in cars:
             if car.is_alive():
                 car.draw(screen)
-        
+
         # Display Info
         text = generation_font.render("Generation: " + str(current_generation), True, (0,0,0))
         text_rect = text.get_rect()
@@ -242,7 +281,7 @@ def run_simulation(genomes, config):
         clock.tick(60) # 60 FPS
 
 if __name__ == "__main__":
-    
+
     # Load Config
     config_path = "./config.txt"
     config = neat.config.Config(neat.DefaultGenome,
@@ -256,6 +295,6 @@ if __name__ == "__main__":
     population.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     population.add_reporter(stats)
-    
+
     # Run Simulation For A Maximum of 1000 Generations
-    population.run(run_simulation, 1000)
+    population.run(run_simulation, 1000000)
