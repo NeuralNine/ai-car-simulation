@@ -19,6 +19,8 @@ HEIGHT = 1824
 CAR_SIZE_X = 60
 CAR_SIZE_Y = 60
 
+maxspeedp = 120
+
 BORDER_COLOR = (255, 255, 255, 255) # Color To Crash on Hit
 
 current_generation = 0 # Generation counter
@@ -80,7 +82,7 @@ class Car:
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
-        while not game_map.get_at((x, y)) == BORDER_COLOR and length < 300:
+        while not game_map.get_at((x, y)) == BORDER_COLOR and length < 900:
             length = length + 1
             x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
@@ -235,12 +237,12 @@ def run_simulation(genomes, config):
           if choice == 10:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(223.6(output))
+                choice = output.index(maxspeedp(output))
                 car.speed += choice
           if choice == 11:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(50(output))
+                choice = output.index(55(output))
                 car.speed -= choice
           if choice == 12:
              for i, car in enumerate(cars):
