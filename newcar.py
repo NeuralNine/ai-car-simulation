@@ -208,7 +208,7 @@ def run_simulation(genomes, config):
           if choice == 2:
                  car.angle -= 10 # Left
           if choice == 3:
-              if car.speed >= 15:
+              if car.speed >= 1:
                   car.speed += 1
               else:
                   car.speed -= 1# Slow Down
@@ -225,13 +225,13 @@ def run_simulation(genomes, config):
           if choice == 8:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(10(output))
+                choice = output.index(30(output))
                 car.angle += choice # Left
           if choice == 9:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(10(output))
-                car.angle -= choice # Left
+                choice = output.index(30(output))
+                car.angle -= choice
           if choice == 10:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
@@ -240,8 +240,64 @@ def run_simulation(genomes, config):
           if choice == 11:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(25(output))
+                choice = output.index(50(output))
                 car.speed -= choice
+          if choice == 12:
+             for i, car in enumerate(cars):
+               output = nets[i].activate(car.get_data())
+               choice = output.index(max(output))
+               if car.speed >= choice:
+                   car.speed += 1
+               else:
+                   car.speed -= 1
+          if choice == 13:
+             for i, car in enumerate(cars):
+               output = nets[i].activate(car.get_data())
+               choice = output.index(max(output))
+               if car.speed >= choice:
+                   car.speed -= 1
+               else:
+                   car.speed += 1
+          if choice == 14:
+             for i, car in enumerate(cars):
+               output = nets[i].activate(car.get_data())
+               choice = output.index(1(output))
+               if choice == 0:
+                   for i, car in enumerate(cars):
+                       output = nets[i].activate(car.get_data())
+                       choice = output.index(max(output))
+                       if car.speed >= choice:
+                           car.speed -= 1
+                       else:
+                           car.speed += 1
+               if choice == 1:
+                    for i, car in enumerate(cars):
+                        output = nets[i].activate(car.get_data())
+                        choice = output.index(max(output))
+                        if car.speed <= choice:
+                            car.speed -= 1
+                        else:
+                            car.speed += 1
+          if choice == 15:
+             for i, car in enumerate(cars):
+               output = nets[i].activate(car.get_data())
+               choice = output.index(1(output))
+               if choice == 0:
+                   for i, car in enumerate(cars):
+                       output = nets[i].activate(car.get_data())
+                       choice = output.index(max(output))
+                       if car.speed >= choice:
+                           car.speed += 1
+                       else:
+                           car.speed -= 1
+               if choice == 1:
+                    for i, car in enumerate(cars):
+                        output = nets[i].activate(car.get_data())
+                        choice = output.index(max(output))
+                        if car.speed <= choice:
+                            car.speed += 1
+                        else:
+                            car.speed -= 1
 
 
         # Check If Car Is Still Alive
@@ -297,4 +353,4 @@ if __name__ == "__main__":
     population.add_reporter(stats)
 
     # Run Simulation For A Maximum of 1000 Generations
-    population.run(run_simulation, 1000000)
+population.run(run_simulation, 1000000)
