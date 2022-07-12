@@ -30,7 +30,7 @@ def time_convert(sec):
   hours = mins // 60
   mins = mins % 60
   print("Time Lapsed = {0}:{1}:{2}".format(int(hours),int(mins),sec))
-
+hat = 900
 class Car:
 
     def __init__(self):
@@ -76,13 +76,18 @@ class Car:
                 self.alive = False
                 break
 
+                for i, car in enumerate(cars):
+                    output = nets[i].activate(car.get_data())
+                    choice = output.index(max(output))
+                    hat = choice
+
     def check_radar(self, degree, game_map):
         length = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
-        while not game_map.get_at((x, y)) == BORDER_COLOR and length < 900:
+        while not game_map.get_at((x, y)) == BORDER_COLOR and length < hat:
             length = length + 1
             x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
@@ -242,7 +247,7 @@ def run_simulation(genomes, config):
           if choice == 11:
               for i, car in enumerate(cars):
                 output = nets[i].activate(car.get_data())
-                choice = output.index(55(output))
+                choice = output.index(56(output))
                 car.speed -= choice
           if choice == 12:
              for i, car in enumerate(cars):
@@ -300,8 +305,6 @@ def run_simulation(genomes, config):
                             car.speed += 1
                         else:
                             car.speed -= 1
-
-
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
         still_alive = 0
