@@ -868,6 +868,8 @@ def run_simulation(genomes, config):
                   car.speed += 199
           if choice == 327:
                   car.speed += 200
+          if car.speed <= 0:
+                  car.speed += 200
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
         still_alive = 0
