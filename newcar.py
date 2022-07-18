@@ -256,7 +256,7 @@ def play(player=None):
                     run = False
                     break
 
-            for i, car in enumerate(cars):
+        for i, car in enumerate(cars):
           output = nets[i].activate(car.get_data())
           choice = output.index(max(output))
           if choice == 0:
@@ -923,15 +923,15 @@ def play(player=None):
                   car.speed += 200
 
 
-            screen.blit(game_map, (0, 0))
+        screen.blit(game_map, (0, 0))
 
-            still_alive = 0
-            for i, car in enumerate(cars):
-                if car.is_alive():
-                    still_alive += 1
-                    car.update(game_map)
-                    car.draw(screen)
-                    rewards[i] += car.get_reward()
+        still_alive = 0
+        for i, car in enumerate(cars):
+            if car.is_alive():
+                still_alive += 1
+                car.update(game_map)
+                car.draw(screen)
+                rewards[i] += car.get_reward()
 
             if still_alive == 0:
                 run = False
